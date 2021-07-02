@@ -1,1 +1,1 @@
-# Network_Library
+Static neural network library code
