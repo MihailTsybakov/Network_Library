@@ -18,21 +18,18 @@ int main()
 
 	network N(ci);
 
-	mnist_reader mr_train("C:\\Users\\mihai\\Desktop\\progy\\C & C++\\Digits_Identifier\\Data", "train_labels.txt", "train-images.idx3-ubyte");
-	mnist_reader mr_test("C:\\Users\\mihai\\Desktop\\progy\\C & C++\\Digits_Identifier\\Data", "test_labels.txt", "t10k-images.idx3-ubyte");
+	mnist_reader mr_train("Data", "train_labels.txt", "train-images.idx3-ubyte");
+	mnist_reader mr_test("Data", "test_labels.txt", "t10k-images.idx3-ubyte");
 
 	std::vector<int> train_labels;
 	std::vector<std::vector<double>> train_input;
 
-	append_labels(train_labels, "C:\\Users\\mihai\\Desktop\\progy\\Additional\\Elastic_Distortions\\train_labels.txt", 60'000);
-	append_labels(train_labels, "C:\\Users\\mihai\\Desktop\\progy\\Additional\\Elastic_Distortions\\train_labels.txt", 60'000);
-	//append_labels(train_labels, "C:\\Users\\mihai\\Desktop\\progy\\Additional\\Elastic_Distortions\\train_labels.txt", 60'000); 
+	append_labels(train_labels, "train_labels.txt", 60'000);
+	append_labels(train_labels, "train_labels.txt", 60'000);
 
-	append_from_binary(train_input, "C:\\Users\\mihai\\Desktop\\progy\\Additional\\Elastic_Distortions\\Basic_Bin.bin", 60'000);    // Basic Set
-	append_from_binary(train_input, "C:\\Users\\mihai\\Desktop\\progy\\Additional\\Elastic_Distortions\\Extended_Bin.bin", 60'000); // Extended Set
-	//append_from_binary(train_input, "C:\\Users\\mihai\\Desktop\\progy\\Additional\\Elastic_Distortions\\Extended_1_Bin.bin", 60'000); // Extended Set #2
+	append_from_binary(train_input, "Basic_Bin.bin", 60'000);    // Basic Set
+	append_from_binary(train_input, "Extended_Bin.bin", 60'000); // Extended Set
 
-	//train_input = form_perception(mr_train.read_images(60'000));
 	std::vector<std::vector<double>> train_output = form_answers(train_labels);
 	std::vector<std::vector<double>> tval_input = form_perception(mr_test.read_images(2'000));
 	std::vector<std::vector<double>> tval_output = form_answers(mr_test.read_labels(2'000));
@@ -83,8 +80,6 @@ int main()
 	N.sgd_learn(li);
 
 	N.save("Distortion", false);
-
-	//N.load("Cuda_Learned_Net", 2, true);
 
 	std::cout << "Accuracy on test set: " << N.batch_test(test_input, test_output, compare) << std::endl;
 
